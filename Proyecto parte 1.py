@@ -28,8 +28,6 @@ class Arma:
         self.tipo: str = tipo
         self.precio: int = precio
 
-from typing import List, Optional, Union
-
 class Personaje:
     def __init__(self, 
                  nombre: str, 

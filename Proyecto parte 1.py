@@ -48,8 +48,8 @@ class Personaje:
         self.defensa_magica: int = defensa_magica
         self.daño_fisico: int = daño_fisico
         self.daño_magico: int = daño_magico  
-        self.arma: Optional[Arma] = arma  # Asignación del arma
-        self.monedas: int = monedas  # Todos los personajes empiezan con 100 monedas
+        self.arma: Optional[Arma] = arma
+        self.monedas: int = monedas
         self.habilidades: List[str] = habilidades if habilidades is not None else []
         self.inventario: List[Item] = inventario if inventario is not None else [
             Item("Curación", "curación", 20),
@@ -65,7 +65,7 @@ class Personaje:
 
     def usar_item(self, item: Item, enemigo: Optional['Enemigo'] = None) -> None:
         if item in self.inventario:
-            item.usar(self, enemigo)  # Pasamos el enemigo si es necesario
+            item.usar(self, enemigo)
             self.inventario.remove(item)
         else:
             print(f"{self.nombre} no tiene {item.nombre}.")
@@ -223,7 +223,7 @@ class EnemigoComun(Enemigo):
 
 class Armero:
     def __init__(self) -> None:
-        self.arsenal: List[Arma] = []  # Inventario de armas disponibles para la venta
+        self.arsenal: List[Arma] = []
 
     def agregar_arma(self, arma: Arma) -> None:
         self.arsenal.append(arma)
@@ -244,7 +244,7 @@ class Armero:
         if personaje.arma == arma:
             personaje.monedas += arma.precio
             self.arsenal.append(arma)
-            personaje.arma = None  # El personaje ya no tiene el arma
+            personaje.arma = None
             print(f"{personaje.nombre} vendió {arma.nombre} y recibió {arma.precio} monedas.")
         else:
             print(f"{personaje.nombre} no tiene el arma {arma.nombre} para vender.")
@@ -306,7 +306,7 @@ def elegir_arma(tipo_personaje: str) -> Optional[Arma]:
             return armas[tipo_personaje][eleccion]
         else:
             print("Opción no válida, se seleccionará un arma por defecto.")
-            return armas[tipo_personaje][0]  # Selecciona un arma por defecto
+            return armas[tipo_personaje][0]
     else:
         print("Tipo de personaje no válido.")
         return None
@@ -314,7 +314,7 @@ def elegir_arma(tipo_personaje: str) -> Optional[Arma]:
 def combate(personaje: Personaje, enemigo: Enemigo) -> None:
     while personaje.salud > 0 and enemigo.salud > 0:
         print(f"--- Turno de {personaje.nombre} ---")
-        mostrar_estado(personaje, enemigo)  # Mostrar el estado antes de la acción
+        mostrar_estado(personaje, enemigo)
 
         accion = input("Elige una acción: 1. Atacar 2. Usar ítem 3. Defender: ")
         match accion:
@@ -339,14 +339,14 @@ def combate(personaje: Personaje, enemigo: Enemigo) -> None:
 
         if enemigo.salud <= 0:
             print(f"{enemigo.nombre} ha sido derrotado!")
-            personaje.monedas += 50  # Ganar monedas al vencer al enemigo
+            personaje.monedas += 50
             print(f"{personaje.nombre} ganó 50 monedas. Monedas actuales: {personaje.monedas}")
         if personaje.salud <= 0:
             print(f"{personaje.nombre} ha sido derrotado...")
 
 def main():
     armero = Armero()
-    mercader = Mercader()  # Creación de un mercader
+    mercader = Mercader()
     armero.agregar_arma(Arma("Espada", 15, "físico", 50))
     armero.agregar_arma(Arma("Hacha", 20, "físico", 75))
     armero.agregar_arma(Arma("Libro de Fuego", 25, "mágico", 100))

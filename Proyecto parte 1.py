@@ -289,7 +289,12 @@ def mostrar_estado(personaje: Personaje, enemigo: Enemigo) -> None:
     print(f"{personaje.nombre} - Salud: {personaje.salud}, Energía: {personaje.energia}, Arma: {personaje.arma.nombre if personaje.arma else 'Sin arma'}, Monedas: {personaje.monedas}")
     print(f"{enemigo.nombre} - Salud: {enemigo.salud}")
     print("----------------")
-    
+
+def mostrar_estadisticas(personaje: Personaje) -> str:
+    print(f"--- Stats ---")
+    print(f"{personaje.nombre} - Salud: {personaje.salud}, Energía: {personaje.energia}, Arma: {personaje.arma.nombre if personaje.arma else 'Sin arma'} {personaje.arma.daño} de daño, Monedas: {personaje.monedas}")
+    print("----------------")
+
 def elegir_arma(tipo_personaje: str) -> Optional[Arma]:
     armas = {
         "Melee": [Arma("Espada", 15, "físico", 50), Arma("Hacha", 20, "físico", 75)],
@@ -383,7 +388,8 @@ def main():
             print("1. Ir a combate")
             print("2. Ir al armero")
             print("3. Ir al mercader")
-            print("4. Salir del juego")
+            print("4. Mostrar estadísticas del Personaje")
+            print("5. Salir del juego")
             eleccion = input("Selecciona una opción: ")
             match eleccion:
                 case "1":
@@ -396,7 +402,7 @@ def main():
                     print("Opciones del armero:")
                     print("1. Comprar arma")
                     print("2. Vender arma")
-                    print("3. Mejorar arma")
+                    print("3. Mejorar arma (Precio: 75 monedas)")
                     eleccion_armero = input("Selecciona una opción: ")
                     match eleccion_armero:
                         case "1":
@@ -410,8 +416,8 @@ def main():
                                 print("No tienes ninguna arma para vender.")
                         case "3":
                             if personaje.arma:
-                                incremento = int(input("Cuánto deseas incrementar el daño del arma? "))
-                                costo = int(input("Cuánto cuesta mejorar el arma? "))
+                                incremento = 10
+                                costo = 75
                                 armero.mejorar_arma(personaje.arma, personaje, incremento, costo)
                             else:
                                 print("No tienes ninguna arma para mejorar.")
@@ -425,6 +431,8 @@ def main():
                     else:
                         print("Opción no válida.")
                 case "4":
+                    mostrar_estadisticas(personaje)
+                case "5":
                     print("Gracias por jugar. ¡Hasta la próxima!")
                     break
                 case _:

@@ -1,6 +1,6 @@
 import random
 from typing import Optional
-from App.Logica_Juego import Item, Arma, Personaje, Melee, Mago, PersonajePorDefecto, Enemigo, GuerreroOscuro, DragonMagico, EnemigoComun, Armero, Mercader
+from Logica_Juego import Item, Arma, Personaje, Melee, Mago, PersonajePorDefecto, Enemigo, GuerreroOscuro, DragonMagico, EnemigoComun, Armero, Mercader
 
 def mostrar_inventario(mercader: Mercader) -> None:
     print("Ítems disponibles en el mercader:")
@@ -194,6 +194,3 @@ def main():
                     break
                 case _:
                     print("Opción no válida.")
-                    
-if __name__ == "__main__":
-    main()

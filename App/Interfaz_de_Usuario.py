@@ -174,13 +174,13 @@ def mostrar_opciones_armero(armero: Armero, personaje: Personaje, tipo_personaje
         match eleccion_armero:
             case "1":
                 mostrar_armas_armero(armero, tipo_personaje)
-                arma = elegir_arma_armero(tipo_personaje,armero.arsenal, armero)
+                arma = elegir_arma_armero(tipo_personaje,armero.arsenal)
                 arma_en_armero_arsenal(personaje, arma, armero, tipo_personaje)
                 break
             case "2":
                 if personaje.arma:
+                    print(f"{personaje.nombre} vendió {personaje.arma.nombre} y recibió {personaje.arma.precio} monedas.")
                     armero.comprar_arma(personaje.arma, personaje, tipo_personaje)
-                    print(f"{personaje.nombre} vendió {arma.nombre} y recibió {arma.precio} monedas.")
                     break
                 else:
                     print("No tienes ninguna arma para vender.")
@@ -189,10 +189,10 @@ def mostrar_opciones_armero(armero: Armero, personaje: Personaje, tipo_personaje
                 if personaje.arma:
                     if armero.mejorar_arma(personaje.arma, personaje) == True:
                         armero.mejorar_arma(personaje.arma, personaje)
-                        print(f"{arma.nombre} mejorada en 10 puntos de daño por 75 monedas.")
+                        print(f"{personaje.arma.nombre} mejorada en 10 puntos de daño por 75 monedas.")
                         break
                     else:
-                        print(f"{personaje.nombre} no tiene suficientes monedas para mejorar {arma.nombre}.")
+                        print(f"{personaje.nombre} no tiene suficientes monedas para mejorar {personaje.arma.nombre}.")
                         break
                 else:
                     print("No tienes ninguna arma para mejorar.")

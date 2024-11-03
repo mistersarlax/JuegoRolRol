@@ -3,7 +3,7 @@ from typing import Optional
 from Logica_Juego import Item, Arma, Personaje, Melee, Mago, PersonajePorDefecto, Enemigo, GuerreroOscuro, DragonMagico, EnemigoComun, Armero, Mercader
 
 def mostrar_inventario_mercader(mercader: Mercader) -> None:
-    print("Ítems disponibles en el mercader:")
+    print("\nÍtems disponibles en el mercader:")
     for i, item in enumerate(mercader.inventario):
         print(f"{i + 1}. {item.nombre} (Efecto: {item.efecto}, Precio: {item.precio} monedas)")
 
@@ -21,26 +21,26 @@ def actuar(enemigo: Enemigo, personaje: 'Personaje') -> None:
     accion: str = random.choice(["atacar", "defender", "usar habilidad"])
     match accion:
         case "atacar":
-            print(f"{enemigo.nombre} ataca a {personaje.nombre} y le inflige {enemigo.atacar(personaje)} puntos de daño.")
+            print(f"\n{enemigo.nombre} ataca a {personaje.nombre} y le inflige {enemigo.atacar(personaje)} puntos de daño.")
         case "defender":
-            print(f"{enemigo.nombre} se defiende y reduce {enemigo.defender()} puntos de daño del próximo ataque.")
+            print(f"\n{enemigo.nombre} se defiende y reduce {enemigo.defender()} puntos de daño del próximo ataque.")
         case "usar habilidad":
             enemigo.usar_habilidad(personaje)
-            print(f"{enemigo.nombre} usa una habilidad especial.")
+            print(f"\n{enemigo.nombre} usa una habilidad especial.")
 
 def mostrar_estado(personaje: Personaje, enemigo: Enemigo) -> None:
-    print(f"--- Estado ---")
+    print(f"\n--- Estado ---")
     print(f"{personaje.nombre} - Salud: {personaje.salud}, Energía: {personaje.energia}, Arma: {personaje.arma.nombre if personaje.arma else 'Sin arma'}, Monedas: {personaje.monedas}")
     print(f"{enemigo.nombre} - Salud: {enemigo.salud}")
-    print("----------------")
+    print("----------------\n")
 
 def mostrar_estadisticas(personaje: Personaje) -> str:
-    print(f"--- Stats ---")
+    print(f"\n--- Stats ---")
     print(f"{personaje.nombre} - Salud: {personaje.salud}, Energía: {personaje.energia}, Arma: {personaje.arma.nombre if personaje.arma else 'Sin arma'} {personaje.arma.daño} de daño, Monedas: {personaje.monedas}")
     print("--- inventario ---")
     for i, item in enumerate(personaje.inventario):
         print(f"{i + 1}. {item.nombre} (Efecto: {item.efecto}, Precio: {item.precio} monedas)")
-    print("----------------")
+    print("----------------\n")
 
 def elegir_arma_inicial(tipo_personaje: str, armas = {
         "Melee": [Arma("Espada", 15, "físico", 50), Arma("Hacha", 20, "físico", 75)],
@@ -50,7 +50,7 @@ def elegir_arma_inicial(tipo_personaje: str, armas = {
 
     while True:
         if tipo_personaje in armas:
-            print("Armas disponibles:")
+            print("\nArmas disponibles:")
             for i, arma in enumerate(armas[tipo_personaje]):
                 print(f"{i + 1}. {arma.nombre} (Daño: {arma.daño}, Precio: {arma.precio})")
             eleccion = int(input("Selecciona un arma: ")) - 1
@@ -64,31 +64,31 @@ def elegir_arma_inicial(tipo_personaje: str, armas = {
 
 def combate(personaje: Personaje, enemigo: Enemigo) -> None:
     while personaje.salud > 0 and enemigo.salud > 0:
-        print(f"--- Turno de {personaje.nombre} ---")
+        print(f"\n--- Turno de {personaje.nombre} ---")
         mostrar_estado(personaje, enemigo)
-
-        accion = input("Elige una acción: 1. Atacar 2. Usar ítem 3. Defender: ")
+        print("Elige una acción: \n1. Atacar \n2. Usar ítem \n3. Defender")
+        accion = input("Eleccion:")
         match accion:
             case "1":
                 if isinstance(personaje, Melee) or isinstance(personaje, PersonajePorDefecto):
-                    print(f"{personaje.nombre} ataca a {enemigo.nombre} con {personaje.arma.nombre} y le inflige {personaje.atacar(enemigo)} puntos de daño.")
+                    print(f"\n{personaje.nombre} ataca a {enemigo.nombre} con {personaje.arma.nombre} y le inflige {personaje.atacar(enemigo)} puntos de daño.")
                 elif isinstance(personaje, Mago) and personaje.energia > 10:
-                    print(f"{personaje.nombre} lanza un hechizo a {enemigo.nombre} con {personaje.arma.nombre} y le inflige {personaje.atacar(enemigo)} puntos de daño.")
+                    print(f"\n{personaje.nombre} lanza un hechizo a {enemigo.nombre} con {personaje.arma.nombre} y le inflige {personaje.atacar(enemigo)} puntos de daño.")
                 else:
-                    print(f"{personaje.nombre} no tiene suficiente energía para lanzar un hechizo.")
+                    print(f"\n{personaje.nombre} no tiene suficiente energía para lanzar un hechizo.")
             case "2":
-                print("Ítems disponibles:")
+                print("\nÍtems disponibles:")
                 for i, item in enumerate(personaje.inventario):
                     print(f"{i + 1}. {item.nombre}")
                 eleccion = int(input("Selecciona un ítem: ")) - 1
                 if 0 <= eleccion < len(personaje.inventario):
                     personaje.usar_item(personaje.inventario[eleccion], enemigo)
-                    print(f"{personaje.nombre} usó la poción de {item.efecto}")
+                    print(f"\n{personaje.nombre} usó la poción de {item.efecto}")
                 else:
                     print("Opción no válida.")
             case "3":
                 personaje.defender()
-                print(f"{personaje.nombre} se defiende y reduce el daño del próximo ataque.")
+                print(f"\n{personaje.nombre} se defiende y reduce el daño del próximo ataque.")
             case _:
                 print("Opción no válida.")
         
@@ -96,14 +96,14 @@ def combate(personaje: Personaje, enemigo: Enemigo) -> None:
             actuar(enemigo, personaje)
             
         if enemigo.salud <= 0:
-            print(f"{enemigo.nombre} ha sido derrotado!")
+            print(f"\n{enemigo.nombre} ha sido derrotado!")
             personaje.monedas += 50
-            print(f"{personaje.nombre} ganó 50 monedas. Monedas actuales: {personaje.monedas}")
+            print(f"\n{personaje.nombre} ganó 50 monedas. Monedas actuales: {personaje.monedas}")
         if personaje.salud <= 0:
-            print(f"{personaje.nombre} ha sido derrotado...")
+            print(f"\n{personaje.nombre} ha sido derrotado...")
             
 def elegir_tipo_personaje():
-    print("Selecciona tu personaje:")
+    print("\nSelecciona tu personaje:")
     print("1. Guerrero (Melee)")
     print("2. Mago")
     print("3. Personaje por defecto")
@@ -132,13 +132,13 @@ def crear_personaje(tipo_personaje: str, arma: Arma | None):
         return personaje
     
 def mostrar_armas_armero(armero: Armero, tipo_personaje: str):
-    print("Armas disponibles en el armero:")
+    print("\nArmas disponibles en el armero:")
     for i, arma in enumerate(armero.arsenal[tipo_personaje]):
         print(f"{i + 1}. {arma.nombre} (Daño: {arma.daño}, Precio: {arma.precio})")
         
 def comprar_item_mercader(mercader: Mercader, personaje: Personaje):
     while True:
-        eleccion_item = int(input("Selecciona un ítem para comprar: ")) - 1
+        eleccion_item = int(input("\nSelecciona un ítem para comprar: ")) - 1
         if 0 <= eleccion_item < len(mercader.inventario):
             if mercader.inventario[eleccion_item] in mercader.inventario:
                 if mercader.vender_item(mercader.inventario[eleccion_item], personaje) == True:
@@ -168,7 +168,7 @@ def elegir_arma_armero(tipo_personaje: str, armas: dict) -> Optional[Arma]:
         return None
             
 def mostrar_opciones_armero(armero: Armero, personaje: Personaje, tipo_personaje: str):
-    print("Opciones del armero:")
+    print("\nOpciones del armero:")
     print("1. Comprar arma")
     print("2. Vender arma")
     print("3. Mejorar arma (Precio: 75 monedas)")

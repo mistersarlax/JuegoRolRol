@@ -2,7 +2,7 @@ import random
 from typing import Optional
 from Logica_Juego import Item, Arma, Personaje, Melee, Mago, PersonajePorDefecto, Enemigo, GuerreroOscuro, DragonMagico, EnemigoComun, Armero, Mercader
 
-def mostrar_inventario(mercader: Mercader) -> None:
+def mostrar_inventario_mercader(mercader: Mercader) -> None:
     print("Ítems disponibles en el mercader:")
     for i, item in enumerate(mercader.inventario):
         print(f"{i + 1}. {item.nombre} (Efecto: {item.efecto}, Precio: {item.precio} monedas)")
@@ -132,6 +132,24 @@ def mostrar_armas_armero(armero: Armero):
     print("Armas disponibles en el armero:")
     for i, arma in enumerate(armero.arsenal):
         print(f"{i + 1}. {arma.nombre} (Daño: {arma.daño}, Precio: {arma.precio})")
+        
+def comprar_item_mercader(mercader: Mercader, personaje: Personaje):
+    while True:
+        eleccion_item = int(input("Selecciona un ítem para comprar: ")) - 1
+        if 0 <= eleccion_item < len(mercader.inventario):
+            if mercader.inventario[eleccion_item] in mercader.inventario:
+                if mercader.vender_item(mercader.inventario[eleccion_item], personaje) == True:
+                    mercader.vender_item(mercader.inventario[eleccion_item], personaje)
+                    print(f"{personaje.nombre} compró {mercader.inventario[eleccion_item].nombre} por {mercader.inventario[eleccion_item].precio} monedas.")
+                    break
+                else:
+                    print(f"{personaje.nombre} no tiene suficientes monedas para comprar {mercader.inventario[eleccion_item].nombre}.")
+                    break
+            else:
+                print(f"{mercader.inventario[eleccion_item].nombre} no está disponible para la venta.")
+                break
+        else:
+            print("Opción no válida.")
     
 
 def main():
@@ -185,19 +203,8 @@ def main():
                     case _:
                         print("Opción no válida.")
             case "3":
-                mostrar_inventario(mercader)
-                eleccion_item = int(input("Selecciona un ítem para comprar: ")) - 1
-                if 0 <= eleccion_item < len(mercader.inventario):
-                    if mercader.inventario[eleccion_item] in mercader.inventario:
-                        if mercader.vender_item(mercader.inventario[eleccion_item], personaje) == True:
-                            mercader.vender_item(mercader.inventario[eleccion_item], personaje)
-                            print(f"{personaje.nombre} compró {mercader.inventario[eleccion_item].nombre} por {mercader.inventario[eleccion_item].precio} monedas.")
-                        else:
-                            print(f"{personaje.nombre} no tiene suficientes monedas para comprar {mercader.inventario[eleccion_item].nombre}.")
-                    else:
-                        print(f"{mercader.inventario[eleccion_item].nombre} no está disponible para la venta.")
-                else:
-                    print("Opción no válida.")
+                mostrar_inventario_mercader(mercader)
+                comprar_item_mercader(mercader, personaje)
             case "4":
                 mostrar_estadisticas(personaje)
             case "5":

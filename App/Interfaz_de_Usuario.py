@@ -128,6 +128,11 @@ def crear_personaje(tipo_personaje: str, arma: Arma | None):
             personaje = PersonajePorDefecto("Defensor", arma)
         return personaje
     
+def mostrar_armas_armero(armero: Armero):
+    print("Armas disponibles en el armero:")
+    for i, arma in enumerate(armero.arsenal):
+        print(f"{i + 1}. {arma.nombre} (Daño: {arma.daño}, Precio: {arma.precio})")
+    
 
 def main():
     armero = Armero()
@@ -150,9 +155,7 @@ def main():
                 enemigo = random.choice([EnemigoComun(), DragonMagico(), GuerreroOscuro()])
                 combate(personaje, enemigo)
             case "2":
-                print("Armas disponibles en el armero:")
-                for i, arma in enumerate(armero.arsenal):
-                    print(f"{i + 1}. {arma.nombre} (Daño: {arma.daño}, Precio: {arma.precio})")
+                mostrar_armas_armero(armero)
                 print("Opciones del armero:")
                 print("1. Comprar arma")
                 print("2. Vender arma")

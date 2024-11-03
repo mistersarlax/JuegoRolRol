@@ -37,6 +37,9 @@ def mostrar_estado(personaje: Personaje, enemigo: Enemigo) -> None:
 def mostrar_estadisticas(personaje: Personaje) -> str:
     print(f"--- Stats ---")
     print(f"{personaje.nombre} - Salud: {personaje.salud}, Energía: {personaje.energia}, Arma: {personaje.arma.nombre if personaje.arma else 'Sin arma'} {personaje.arma.daño} de daño, Monedas: {personaje.monedas}")
+    print("--- inventario ---")
+    for i, item in enumerate(personaje.inventario):
+        print(f"{i + 1}. {item.nombre} (Efecto: {item.efecto}, Precio: {item.precio} monedas)")
     print("----------------")
 
 def elegir_arma_inicial(tipo_personaje: str, armas = {

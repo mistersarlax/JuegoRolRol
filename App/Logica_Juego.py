@@ -234,10 +234,12 @@ class Armero:
             personaje.arma = Arma("Puños", 5, "físico", 0)
             return True
 
-    def mejorar_arma(self, arma: Arma, personaje: Personaje, incremento: int, costo: int) -> bool:
-        if personaje.monedas >= costo:
-            arma.daño += incremento
-            personaje.monedas -= costo
+    def mejorar_arma(self, arma: Arma, personaje: Personaje) -> bool:
+        _incremento = 10
+        _costo = 75
+        if personaje.monedas >= _costo:
+            arma.daño += _incremento
+            personaje.monedas -= _costo
             return True     
         else:
             return None

@@ -150,6 +150,10 @@ def comprar_item_mercader(mercader: Mercader, personaje: Personaje):
                 break
         else:
             print("Opción no válida.")
+            
+def mostrar_opciones_armero(armero: Armero, personaje: Personaje):
+    
+    
     
 
 def main():
@@ -191,11 +195,9 @@ def main():
                             print("No tienes ninguna arma para vender.")
                     case "3":
                         if personaje.arma:
-                            incremento = 10
-                            costo = 75
-                            if armero.mejorar_arma(personaje.arma, personaje, incremento, costo) == True:
-                                armero.mejorar_arma(personaje.arma, personaje, incremento, costo)
-                                print(f"{arma.nombre} mejorada en {incremento} puntos de daño por {costo} monedas.")
+                            if armero.mejorar_arma(personaje.arma, personaje) == True:
+                                armero.mejorar_arma(personaje.arma, personaje)
+                                print(f"{arma.nombre} mejorada en 10 puntos de daño por 75 monedas.")
                             else:
                                 print(f"{personaje.nombre} no tiene suficientes monedas para mejorar {arma.nombre}.")
                         else:

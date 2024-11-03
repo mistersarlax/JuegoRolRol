@@ -213,24 +213,29 @@ class EnemigoComun(Enemigo):
 
 class Armero:
     def __init__(self) -> None:
-        self.arsenal: List[Arma] = []
+        self.arsenal: dict[str][Arma] = {
+        "Melee": [Arma("Doble Espada", 30, "físico", 100), Arma("Martillo", 40, "físico", 150)],
+        "Mago": [Arma("Hoz Ardiente", 50, "mágico", 180), Arma("Heladura", 40, "mágico", 150)],
+        "Defecto": [Arma("Puños", 5, "físico", 0)]
+    }
         
-    def agregar_arma(self, arma: Arma) -> None:
-        self.arsenal.append(arma)
+    def agregar_arma(self, arma: Arma, tipo_personaje: str) -> None:
+        self.arsenal[tipo_personaje].append(arma)
 
-    def vender_arma(self, arma: Arma, personaje: Personaje) -> bool:
+    def vender_arma(self, arma: Arma, personaje: Personaje, tipo_personaje) -> bool:
         if personaje.monedas >= arma.precio:
             personaje.monedas -= arma.precio
             personaje.arma = arma
-            self.arsenal.remove(arma)
+            indice_arma = self.arsenal[tipo_personaje].index(arma)
+            del self.arsenal[tipo_personaje][indice_arma]
             return True 
         else:
             return None
 
-    def comprar_arma(self, arma: Arma, personaje: Personaje) -> bool:
+    def comprar_arma(self, arma: Arma, personaje: Personaje, tipo_personaje: str) -> bool:
         if personaje.arma == arma:
             personaje.monedas += arma.precio
-            self.arsenal.append(arma)
+            self.arsenal[tipo_personaje].append(arma)
             personaje.arma = Arma("Puños", 5, "físico", 0)
             return True
 

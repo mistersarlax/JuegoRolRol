@@ -7,10 +7,10 @@ def mostrar_inventario_mercader(mercader: Mercader) -> None:
     for i, item in enumerate(mercader.inventario):
         print(f"{i + 1}. {item.nombre} (Efecto: {item.efecto}, Precio: {item.precio} monedas)")
 
-def arma_en_armero_arsenal(personaje: Personaje,arma: Arma,armero: Armero):
-    if arma in armero.arsenal:
-        if armero.vender_arma(arma, personaje) == True:
-            armero.vender_arma(arma, personaje)
+def arma_en_armero_arsenal(personaje: Personaje,arma: Arma,armero: Armero, tipo_personaje: str):
+    if arma in armero.arsenal[tipo_personaje]:
+        if armero.vender_arma(arma, personaje, tipo_personaje) == True:
+            armero.vender_arma(arma, personaje, tipo_personaje)
             print(f"{personaje.nombre} compró {arma.nombre} por {arma.precio} monedas.")
         else:
             print(f"{personaje.nombre} no tiene suficientes monedas para comprar {arma.nombre}.")
@@ -39,25 +39,25 @@ def mostrar_estadisticas(personaje: Personaje) -> str:
     print(f"{personaje.nombre} - Salud: {personaje.salud}, Energía: {personaje.energia}, Arma: {personaje.arma.nombre if personaje.arma else 'Sin arma'} {personaje.arma.daño} de daño, Monedas: {personaje.monedas}")
     print("----------------")
 
-def elegir_arma(tipo_personaje: str, armas = {
+def elegir_arma_inicial(tipo_personaje: str, armas = {
         "Melee": [Arma("Espada", 15, "físico", 50), Arma("Hacha", 20, "físico", 75)],
         "Mago": [Arma("Libro de Fuego", 25, "mágico", 100), Arma("Libro de Hielo", 20, "mágico", 90)],
         "Defecto": [Arma("Puños", 5, "físico", 0)]
     }) -> Optional[Arma]:
 
-    if tipo_personaje in armas:
-        print("Armas disponibles:")
-        for i, arma in enumerate(armas[tipo_personaje]):
-            print(f"{i + 1}. {arma.nombre} (Daño: {arma.daño}, Precio: {arma.precio})")
-        eleccion = int(input("Selecciona un arma: ")) - 1
-        if 0 <= eleccion < len(armas[tipo_personaje]):
-            return armas[tipo_personaje][eleccion]
+    while True:
+        if tipo_personaje in armas:
+            print("Armas disponibles:")
+            for i, arma in enumerate(armas[tipo_personaje]):
+                print(f"{i + 1}. {arma.nombre} (Daño: {arma.daño}, Precio: {arma.precio})")
+            eleccion = int(input("Selecciona un arma: ")) - 1
+            if 0 <= eleccion < len(armas[tipo_personaje]):
+                return armas[tipo_personaje][eleccion]
+            else:
+                print("Opción no válida, intenta de nuevo")
         else:
-            print("Opción no válida, se seleccionará un arma por defecto.")
-            return armas[tipo_personaje][0]
-    else:
-        print("Tipo de personaje no válido.")
-        return None
+            print("Tipo de personaje no válido.")
+            return None
 
 def combate(personaje: Personaje, enemigo: Enemigo) -> None:
     while personaje.salud > 0 and enemigo.salud > 0:
@@ -128,9 +128,9 @@ def crear_personaje(tipo_personaje: str, arma: Arma | None):
             personaje = PersonajePorDefecto("Defensor", arma)
         return personaje
     
-def mostrar_armas_armero(armero: Armero):
+def mostrar_armas_armero(armero: Armero, tipo_personaje: str):
     print("Armas disponibles en el armero:")
-    for i, arma in enumerate(armero.arsenal):
+    for i, arma in enumerate(armero.arsenal[tipo_personaje]):
         print(f"{i + 1}. {arma.nombre} (Daño: {arma.daño}, Precio: {arma.precio})")
         
 def comprar_item_mercader(mercader: Mercader, personaje: Personaje):
@@ -151,66 +151,77 @@ def comprar_item_mercader(mercader: Mercader, personaje: Personaje):
         else:
             print("Opción no válida.")
             
-def mostrar_opciones_armero(armero: Armero, personaje: Personaje):
-    
-    
-    
+def elegir_arma_armero(tipo_personaje: str, armas: dict) -> Optional[Arma]:
 
-def main():
-    armero = Armero()
-    mercader = Mercader()
-    tipo_personaje = elegir_tipo_personaje()
-    arma = elegir_arma(tipo_personaje)
-    personaje = crear_personaje(tipo_personaje, arma)
-    
-
+    if tipo_personaje in armas:
+        eleccion = int(input("Selecciona un arma: ")) - 1
+        if 0 <= eleccion < len(armas[tipo_personaje]):
+            return armas[tipo_personaje][eleccion]
+        else:
+            print("Opción no válida, se seleccionará un arma por defecto.")
+            return armas[tipo_personaje][0]
+    else:
+        print("Tipo de personaje no válido.")
+        return None
+            
+def mostrar_opciones_armero(armero: Armero, personaje: Personaje, tipo_personaje: str):
+    print("Opciones del armero:")
+    print("1. Comprar arma")
+    print("2. Vender arma")
+    print("3. Mejorar arma (Precio: 75 monedas)")
     while True:
-        print("\nMenú Principal:")
-        print("1. Ir a combate")
-        print("2. Ir al armero")
-        print("3. Ir al mercader")
-        print("4. Mostrar estadísticas del Personaje")
-        print("5. Salir del juego")
-        eleccion = input("Selecciona una opción: ")
-        match eleccion:
+        eleccion_armero = input("Selecciona una opción: ")
+        match eleccion_armero:
             case "1":
-                enemigo = random.choice([EnemigoComun(), DragonMagico(), GuerreroOscuro()])
-                combate(personaje, enemigo)
-            case "2":
-                mostrar_armas_armero(armero)
-                print("Opciones del armero:")
-                print("1. Comprar arma")
-                print("2. Vender arma")
-                print("3. Mejorar arma (Precio: 75 monedas)")
-                eleccion_armero = input("Selecciona una opción: ")
-                match eleccion_armero:
-                    case "1":
-                        arma = elegir_arma(tipo_personaje)
-                        arma_en_armero_arsenal(personaje, arma, armero)
-                    case "2":
-                        if personaje.arma:
-                            armero.comprar_arma(personaje.arma, personaje)
-                            print(f"{personaje.nombre} vendió {arma.nombre} y recibió {arma.precio} monedas.")
-                        else:
-                            print("No tienes ninguna arma para vender.")
-                    case "3":
-                        if personaje.arma:
-                            if armero.mejorar_arma(personaje.arma, personaje) == True:
-                                armero.mejorar_arma(personaje.arma, personaje)
-                                print(f"{arma.nombre} mejorada en 10 puntos de daño por 75 monedas.")
-                            else:
-                                print(f"{personaje.nombre} no tiene suficientes monedas para mejorar {arma.nombre}.")
-                        else:
-                            print("No tienes ninguna arma para mejorar.")
-                    case _:
-                        print("Opción no válida.")
-            case "3":
-                mostrar_inventario_mercader(mercader)
-                comprar_item_mercader(mercader, personaje)
-            case "4":
-                mostrar_estadisticas(personaje)
-            case "5":
-                print("Gracias por jugar. ¡Hasta la próxima!")
+                mostrar_armas_armero(armero, tipo_personaje)
+                arma = elegir_arma_armero(tipo_personaje,armero.arsenal, armero)
+                arma_en_armero_arsenal(personaje, arma, armero, tipo_personaje)
                 break
+            case "2":
+                if personaje.arma:
+                    armero.comprar_arma(personaje.arma, personaje, tipo_personaje)
+                    print(f"{personaje.nombre} vendió {arma.nombre} y recibió {arma.precio} monedas.")
+                    break
+                else:
+                    print("No tienes ninguna arma para vender.")
+                    break
+            case "3":
+                if personaje.arma:
+                    if armero.mejorar_arma(personaje.arma, personaje) == True:
+                        armero.mejorar_arma(personaje.arma, personaje)
+                        print(f"{arma.nombre} mejorada en 10 puntos de daño por 75 monedas.")
+                        break
+                    else:
+                        print(f"{personaje.nombre} no tiene suficientes monedas para mejorar {arma.nombre}.")
+                        break
+                else:
+                    print("No tienes ninguna arma para mejorar.")
+                    break
             case _:
                 print("Opción no válida.")
+        
+def menu_principal(armero: Armero, mercader: Mercader, tipo_personaje: str, personaje: Personaje):
+    while True:
+            print("\nMenú Principal:")
+            print("1. Ir a combate")
+            print("2. Ir al armero")
+            print("3. Ir al mercader")
+            print("4. Mostrar estadísticas del Personaje")
+            print("5. Salir del juego")
+            eleccion = input("Selecciona una opción: ")
+            match eleccion:
+                case "1":
+                    enemigo = random.choice([EnemigoComun(), DragonMagico(), GuerreroOscuro()])
+                    combate(personaje, enemigo)
+                case "2":
+                    mostrar_opciones_armero(armero, personaje, tipo_personaje)
+                case "3":
+                    mostrar_inventario_mercader(mercader)
+                    comprar_item_mercader(mercader, personaje)
+                case "4":
+                    mostrar_estadisticas(personaje)
+                case "5":
+                    print("Gracias por jugar. ¡Hasta la próxima!")
+                    break
+                case _:
+                    print("Opción no válida.")

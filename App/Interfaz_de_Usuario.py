@@ -110,19 +110,25 @@ def elegir_tipo_personaje():
     print("3. Personaje por defecto")
     tipo_personaje = ""
     while True:
-        eleccion = input("Tu elección: ")
-        if eleccion == "1":
-            tipo_personaje = "Melee"
-            return tipo_personaje
-        elif eleccion == "2":
-            tipo_personaje = "Mago"
-            return tipo_personaje
-        elif eleccion == "3":
-            tipo_personaje = "Defecto"
-            return tipo_personaje
-        else:
-            print("Opción no válida.")
+        try:
+            eleccion = int(input("Tu elección: "))
+            match eleccion:
+                case 1:
+                    tipo_personaje = "Melee"
+                    return tipo_personaje
+                case 2:
+                    tipo_personaje = "Mago"
+                    return tipo_personaje
+                case 2:
+                    tipo_personaje = "Defecto"
+                    return tipo_personaje
+                case _:
+                    raise OpcionInvalidaError()
+                
+        except OpcionInvalidaError:
+            print("Opción no válida, debes ingresar un numero entre 1 y 3")
             
+                
 def crear_personaje(tipo_personaje: str, arma: Arma | None):
         if tipo_personaje == "Melee":
             personaje = Melee("Guerrero", arma)

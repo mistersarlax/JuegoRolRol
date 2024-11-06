@@ -159,11 +159,14 @@ def elegir_arma_armero(tipo_personaje: str, armas: dict) -> Optional[Arma]:
 
     if tipo_personaje in armas:
         while True:
-            eleccion = int(input("Selecciona un arma: ")) - 1
-            if 0 <= eleccion < len(armas[tipo_personaje]):
-                return armas[tipo_personaje][eleccion]
-            else:
-                print("Opción no válida, se seleccionará un arma por defecto.")
+            try:
+                eleccion = int(input("Selecciona un arma: ")) - 1
+                if 0 <= eleccion < len(armas[tipo_personaje]):
+                    return armas[tipo_personaje][eleccion]
+                else:
+                    raise OpcionInvalidaError()
+            except OpcionInvalidaError:
+                print(f"\nOpción no válida, debes ingresar un numero entre 1 y {len(armas[tipo_personaje])}.\n")
     else:
         print("Tipo de personaje no válido.")
         return None

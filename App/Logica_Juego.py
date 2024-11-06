@@ -2,7 +2,7 @@ from abc import ABC
 import random
 from typing import List, Optional
 
-from Excepciones import PersonajeNoTieneItemError
+from Excepciones import PersonajeNoTieneItemError, PersonajeNoTieneMonedasError
 
 class Item:
     def __init__(self, nombre: str, efecto: str, cantidad: int, precio: int):
@@ -234,7 +234,7 @@ class Armero:
             del self.arsenal[tipo_personaje][indice_arma]
             return True 
         else:
-            return None
+            raise PersonajeNoTieneMonedasError()
 
     def comprar_arma(self, arma: Arma, personaje: Personaje, tipo_personaje: str) -> bool:
         if personaje.arma == arma:
@@ -251,7 +251,7 @@ class Armero:
             personaje.monedas -= _costo
             return True     
         else:
-            return None
+            raise PersonajeNoTieneMonedasError()
             
 class Mercader:
     def __init__(self) -> None:
@@ -269,4 +269,4 @@ class Mercader:
             self.inventario[indice].cantidad -= 1
             return True
         else:
-            return False
+            raise PersonajeNoTieneMonedasError()

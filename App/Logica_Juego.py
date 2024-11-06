@@ -264,7 +264,6 @@ class Mercader:
     def vender_item(self, item: Item, personaje: Personaje) -> bool:
         if personaje.monedas >= item.precio:
             personaje.monedas -= item.precio
-            personaje.inventario.append(item)
             indice = self.inventario.index(item)
             self.inventario[indice].cantidad -= 1
             return True

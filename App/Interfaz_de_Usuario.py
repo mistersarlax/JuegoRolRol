@@ -56,7 +56,12 @@ def elegir_arma_inicial(tipo_personaje: str, armas = {
                     print("\nArmas disponibles:")
                     for i, arma in enumerate(armas[tipo_personaje]):
                         print(f"{i + 1}. {arma.nombre} (Daño: {arma.daño}, Precio: {arma.precio})")
-                    eleccion = int(input("Selecciona un arma: ")) - 1
+                    while True:
+                        try:
+                            eleccion = int(input("Selecciona un arma: ")) - 1
+                            break
+                        except ValueError:
+                            print(f"\nOpción no válida, debes ingresar un numero entre 1 y {len(armas[tipo_personaje])}\n")
                     if 0 <= eleccion < len(armas[tipo_personaje]):
                         return armas[tipo_personaje][eleccion]
                     else:
@@ -74,9 +79,14 @@ def combate(personaje: Personaje, enemigo: Enemigo) -> None:
                 print(f"\n--- Turno de {personaje.nombre} ---")
                 mostrar_estado(personaje, enemigo)
                 print("Elige una acción: \n1. Atacar \n2. Usar ítem \n3. Defender")
-                accion = input("Eleccion:")
+                while True:
+                    try:
+                        accion = int(input("Eleccion:"))
+                        break
+                    except ValueError:
+                        print("\nOpción no válida, debes ingresar un numero entre 1 y 3\n")
                 match accion:
-                    case "1":
+                    case 1:
                         if isinstance(personaje, Melee) or isinstance(personaje, PersonajePorDefecto):
                             print(f"\n{personaje.nombre} ataca a {enemigo.nombre} con {personaje.arma.nombre} y le inflige {personaje.atacar(enemigo)} puntos de daño.")
                             break
@@ -86,13 +96,18 @@ def combate(personaje: Personaje, enemigo: Enemigo) -> None:
                         else:
                             print(f"\n{personaje.nombre} no tiene suficiente energía para lanzar un hechizo.")
                             break
-                    case "2":
+                    case 2:
                         while True:
                             print("\nÍtems disponibles:")
                             for i, item in enumerate(personaje.inventario):
                                 print(f"{i + 1}. {item.nombre}")
                             try:
-                                eleccion = int(input("Selecciona un ítem: ")) - 1
+                                while True:
+                                    try:
+                                        eleccion = int(input("Selecciona un ítem: ")) - 1
+                                        break
+                                    except ValueError:
+                                        print(f"\nOpción no válida, debes ingresar un numero entre 1 y {len(personaje.inventario)}\n")
                                 if 0 <= eleccion < len(personaje.inventario):
                                     print(f"\n{personaje.nombre} usó la poción de {personaje.inventario[eleccion].efecto}")
                                     personaje.usar_item(personaje.inventario[eleccion], enemigo)
@@ -102,7 +117,7 @@ def combate(personaje: Personaje, enemigo: Enemigo) -> None:
                             except OpcionInvalidaError:
                                 print(f"\nOpción no válida, debes ingresar un numero entre 1 y {len(personaje.inventario)}\n")
                         break
-                    case "3":
+                    case 3:
                         personaje.defender()
                         print(f"\n{personaje.nombre} se defiende y reduce el daño del próximo ataque.")
                         break
@@ -129,7 +144,12 @@ def elegir_tipo_personaje():
     tipo_personaje = ""
     while True:
         try:
-            eleccion = int(input("Tu elección: "))
+            while True:
+                try:
+                    eleccion = int(input("Tu elección: "))
+                    break
+                except ValueError:
+                    print("\nOpción no válida, debes ingresar un numero entre 1 y 3\n")
             match eleccion:
                 case 1:
                     tipo_personaje = "Melee"
@@ -164,7 +184,12 @@ def mostrar_armas_armero(armero: Armero, tipo_personaje: str):
 def comprar_item_mercader(mercader: Mercader, personaje: Personaje):
     while True:
         try:
-            eleccion_item = int(input("\nSelecciona un ítem para comprar: ")) - 1
+            while True:
+                try:
+                    eleccion_item = int(input("\nSelecciona un ítem para comprar: ")) - 1
+                    break
+                except ValueError:
+                    print(f"\nOpción no válida, debes ingresar un numero entre 1 y {len(mercader.inventario)}")
             if 0 <= eleccion_item < len(mercader.inventario):
                 if mercader.inventario[eleccion_item] in mercader.inventario:
                     if mercader.vender_item(mercader.inventario[eleccion_item], personaje) == True:
@@ -187,7 +212,12 @@ def elegir_arma_armero(tipo_personaje: str, armas: dict) -> Optional[Arma]:
     if tipo_personaje in armas:
         while True:
             try:
-                eleccion = int(input("Selecciona un arma: ")) - 1
+                while True:
+                    try:
+                        eleccion = int(input("Selecciona un arma: ")) - 1
+                        break
+                    except ValueError:
+                        print(f"\nOpción no válida, debes ingresar un numero entre 1 y {len(armas[tipo_personaje])}.\n")
                 if 0 <= eleccion < len(armas[tipo_personaje]):
                     return armas[tipo_personaje][eleccion]
                 else:
@@ -205,14 +235,19 @@ def mostrar_opciones_armero(armero: Armero, personaje: Personaje, tipo_personaje
     print("3. Mejorar arma (Precio: 75 monedas)")
     while True:
         try:
-            eleccion_armero = input("Selecciona una opción: ")
+            while True:
+                try:
+                    eleccion_armero = int(input("Selecciona una opción: "))
+                    break
+                except ValueError:
+                    print("\nOpción no válida, debes ingresar un numero entre 1 y 3.\n")
             match eleccion_armero:
-                case "1":
+                case 1:
                     mostrar_armas_armero(armero, tipo_personaje)
                     arma = elegir_arma_armero(tipo_personaje,armero.arsenal)
                     arma_en_armero_arsenal(personaje, arma, armero, tipo_personaje)
                     break
-                case "2":
+                case 2:
                     if personaje.arma:
                         print(f"{personaje.nombre} vendió {personaje.arma.nombre} y recibió {personaje.arma.precio} monedas.")
                         armero.comprar_arma(personaje.arma, personaje, tipo_personaje)
@@ -220,7 +255,7 @@ def mostrar_opciones_armero(armero: Armero, personaje: Personaje, tipo_personaje
                     else:
                         print("No tienes ninguna arma para vender.")
                         break
-                case "3":
+                case 3:
                     if personaje.arma:
                         if armero.mejorar_arma(personaje.arma, personaje) == True:
                             armero.mejorar_arma(personaje.arma, personaje)
@@ -248,19 +283,24 @@ def menu_principal(armero: Armero, mercader: Mercader, tipo_personaje: str, pers
         print("5. Salir del juego")
         
         try:
-            eleccion = input("Selecciona una opción: ")
+            while True:
+                try:
+                    eleccion = int(input("Selecciona una opción: "))
+                    break
+                except ValueError:
+                    print("\nOpción no válida, debes ingresar un número entre 1 y 5.")
             match eleccion:
-                case "1":
+                case 1:
                     enemigo = random.choice([EnemigoComun(), DragonMagico(), GuerreroOscuro()])
                     combate(personaje, enemigo)
-                case "2":
+                case 2:
                     mostrar_opciones_armero(armero, personaje, tipo_personaje)
-                case "3":
+                case 3:
                     mostrar_inventario_mercader(mercader)
                     comprar_item_mercader(mercader, personaje)
-                case "4":
+                case 4:
                     mostrar_estadisticas(personaje)
-                case "5":
+                case 5:
                     print("Gracias por jugar. ¡Hasta la próxima!")
                     break
                 case _:
@@ -268,3 +308,4 @@ def menu_principal(armero: Armero, mercader: Mercader, tipo_personaje: str, pers
         
         except OpcionInvalidaError:
             print("\nOpción no válida, debes ingresar un número entre 1 y 5.")
+            

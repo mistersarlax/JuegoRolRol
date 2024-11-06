@@ -106,10 +106,8 @@ def combate(personaje: Personaje, enemigo: Enemigo) -> None:
                             break
                     case 2:
                         while True:
-                            print("\nÍtems disponibles:")
-                            for i, item in enumerate(personaje.inventario):
-                                print(f"{i + 1}. {item.nombre}")
                             try:
+                                mostrar_inventario_personaje(personaje)
                                 while True:
                                     try:
                                         eleccion = int(input("Selecciona un ítem: ")) - 1
@@ -122,11 +120,13 @@ def combate(personaje: Personaje, enemigo: Enemigo) -> None:
                                         personaje.usar_item(personaje.inventario[eleccion], enemigo)
                                         break
                                     except PersonajeNoTieneItemError:
-                                        print(f"{personaje.nombre} no tiene {item.nombre}.")
+                                        print(f"{personaje.nombre} no tiene {personaje.inventario[eleccion].nombre}.")
                                 else:
                                     raise OpcionInvalidaError()
                             except OpcionInvalidaError:
                                 print(f"\nOpción no válida, debes ingresar un numero entre 1 y {len(personaje.inventario)}\n")
+                            except PersonajeInventarioVacioError:
+                                print(f"El inventario de {personaje.nombre} esta vacio")
                         break
                     case 3:
                         personaje.defender()

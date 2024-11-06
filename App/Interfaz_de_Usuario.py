@@ -7,6 +7,11 @@ def mostrar_inventario_mercader(mercader: Mercader) -> None:
     print("\nÍtems disponibles en el mercader:")
     for i, item in enumerate(mercader.inventario):
         print(f"{i + 1}. {item.nombre} (Efecto: {item.efecto}, Cantidad: {item.cantidad}, Precio: {item.precio} monedas)")
+        
+def mostrar_inventario_personaje(personaje: Personaje):
+    print("\nÍtems disponibles:")
+    for i, item in enumerate(personaje.inventario):
+        print(f"{i + 1}. {item.nombre} (Efecto: {item.efecto}, Cantidad: {item.cantidad}, Precio: {item.precio} monedas)")
 
 def arma_en_armero_arsenal(personaje: Personaje,arma: Arma,armero: Armero, tipo_personaje: str):
     if arma in armero.arsenal[tipo_personaje]:

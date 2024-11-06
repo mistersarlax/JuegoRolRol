@@ -1,3 +1,4 @@
+from abc import ABC
 import random
 from typing import List, Optional
 
@@ -26,7 +27,7 @@ class Arma:
         self.tipo: str = tipo
         self.precio: int = precio
 
-class Personaje:
+class Personaje(ABC):
     def __init__(self, 
                  nombre: str, 
                  salud: int, 
@@ -156,7 +157,7 @@ class PersonajePorDefecto(Personaje):
         else:
             return 0
         
-class Enemigo:
+class Enemigo(ABC):
     def __init__(self, 
                  nombre: str, 
                  salud: int, 

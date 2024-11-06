@@ -3,3 +3,6 @@ class OpcionInvalidaError(Exception):
 
 class PersonajeNoTieneItemError(Exception):
     pass
+
+class PersonajeNoTieneMonedasError(Exception):
+    pass

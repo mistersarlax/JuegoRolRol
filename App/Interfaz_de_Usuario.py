@@ -199,15 +199,15 @@ def comprar_item_mercader(mercader: Mercader, personaje: Personaje):
                     print(f"\nOpción no válida, debes ingresar un numero entre 1 y {len(mercader.inventario)}")
             if 0 <= eleccion_item < len(mercader.inventario):
                 if mercader.inventario[eleccion_item] in mercader.inventario:
-                    if mercader.vender_item(mercader.inventario[eleccion_item], personaje) == True:
+                    try:
                         mercader.vender_item(mercader.inventario[eleccion_item], personaje)
                         print(f"{personaje.nombre} compró {mercader.inventario[eleccion_item].nombre} por {mercader.inventario[eleccion_item].precio} monedas.")
                         break
-                    else:
+                    except PersonajeNoTieneMonedasError:
                         print(f"{personaje.nombre} no tiene suficientes monedas para comprar {mercader.inventario[eleccion_item].nombre}.")
-                        break
+                        break                                                
                 else:
-                    print(f"{mercader.inventario[eleccion_item].nombre} no está disponible para la venta.")
+                    print(f"Item no está disponible para la venta.")
                     break
             else:
                 raise OpcionInvalidaError()

@@ -158,12 +158,12 @@ def comprar_item_mercader(mercader: Mercader, personaje: Personaje):
 def elegir_arma_armero(tipo_personaje: str, armas: dict) -> Optional[Arma]:
 
     if tipo_personaje in armas:
-        eleccion = int(input("Selecciona un arma: ")) - 1
-        if 0 <= eleccion < len(armas[tipo_personaje]):
-            return armas[tipo_personaje][eleccion]
-        else:
-            print("Opción no válida, se seleccionará un arma por defecto.")
-            return armas[tipo_personaje][0]
+        while True:
+            eleccion = int(input("Selecciona un arma: ")) - 1
+            if 0 <= eleccion < len(armas[tipo_personaje]):
+                return armas[tipo_personaje][eleccion]
+            else:
+                print("Opción no válida, se seleccionará un arma por defecto.")
     else:
         print("Tipo de personaje no válido.")
         return None
@@ -174,35 +174,39 @@ def mostrar_opciones_armero(armero: Armero, personaje: Personaje, tipo_personaje
     print("2. Vender arma")
     print("3. Mejorar arma (Precio: 75 monedas)")
     while True:
-        eleccion_armero = input("Selecciona una opción: ")
-        match eleccion_armero:
-            case "1":
-                mostrar_armas_armero(armero, tipo_personaje)
-                arma = elegir_arma_armero(tipo_personaje,armero.arsenal)
-                arma_en_armero_arsenal(personaje, arma, armero, tipo_personaje)
-                break
-            case "2":
-                if personaje.arma:
-                    print(f"{personaje.nombre} vendió {personaje.arma.nombre} y recibió {personaje.arma.precio} monedas.")
-                    armero.comprar_arma(personaje.arma, personaje, tipo_personaje)
+        try:
+            eleccion_armero = input("Selecciona una opción: ")
+            match eleccion_armero:
+                case "1":
+                    mostrar_armas_armero(armero, tipo_personaje)
+                    arma = elegir_arma_armero(tipo_personaje,armero.arsenal)
+                    arma_en_armero_arsenal(personaje, arma, armero, tipo_personaje)
                     break
-                else:
-                    print("No tienes ninguna arma para vender.")
-                    break
-            case "3":
-                if personaje.arma:
-                    if armero.mejorar_arma(personaje.arma, personaje) == True:
-                        armero.mejorar_arma(personaje.arma, personaje)
-                        print(f"{personaje.arma.nombre} mejorada en 10 puntos de daño por 75 monedas.")
+                case "2":
+                    if personaje.arma:
+                        print(f"{personaje.nombre} vendió {personaje.arma.nombre} y recibió {personaje.arma.precio} monedas.")
+                        armero.comprar_arma(personaje.arma, personaje, tipo_personaje)
                         break
                     else:
-                        print(f"{personaje.nombre} no tiene suficientes monedas para mejorar {personaje.arma.nombre}.")
+                        print("No tienes ninguna arma para vender.")
                         break
-                else:
-                    print("No tienes ninguna arma para mejorar.")
-                    break
-            case _:
-                raise OpcionInvalidaError("Opción no válida, debes ingresar un numero entre 1 y 3.")
+                case "3":
+                    if personaje.arma:
+                        if armero.mejorar_arma(personaje.arma, personaje) == True:
+                            armero.mejorar_arma(personaje.arma, personaje)
+                            print(f"{personaje.arma.nombre} mejorada en 10 puntos de daño por 75 monedas.")
+                            break
+                        else:
+                            print(f"{personaje.nombre} no tiene suficientes monedas para mejorar {personaje.arma.nombre}.")
+                            break
+                    else:
+                        print("No tienes ninguna arma para mejorar.")
+                        break
+                case _:
+                    raise OpcionInvalidaError()
+                
+        except OpcionInvalidaError:
+            print("\nOpción no válida, debes ingresar un numero entre 1 y 3.\n")
         
 def menu_principal(armero: Armero, mercader: Mercader, tipo_personaje: str, personaje: Personaje):
     while True:
@@ -233,4 +237,4 @@ def menu_principal(armero: Armero, mercader: Mercader, tipo_personaje: str, pers
                     raise OpcionInvalidaError()
         
         except OpcionInvalidaError:
-            print("Opción no válida, debes ingresar un número entre 1 y 5.")
+            print("\nOpción no válida, debes ingresar un número entre 1 y 5.")

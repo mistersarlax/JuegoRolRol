@@ -46,10 +46,6 @@ def mostrar_estado_combate(personaje: Personaje, enemigo: Enemigo) -> None:
 def mostrar_estadisticas(personaje: Personaje) -> str:
     print(f"\n--- Stats ---")
     print(f"{personaje.nombre} - Salud: {personaje.salud}, Energía: {personaje.energia}, Arma: {personaje.arma.nombre if personaje.arma else 'Sin arma'} {personaje.arma.daño} de daño, Monedas: {personaje.monedas}")
-    print("--- inventario ---")
-    for i, item in enumerate(personaje.inventario):
-        print(f"{i + 1}. {item.nombre} (Efecto: {item.efecto}, Precio: {item.precio} monedas)")
-    print("----------------")
 
 def elegir_arma_inicial(tipo_personaje: str, armas = {
         "Melee": [Arma("Espada", 15, "físico", 50), Arma("Hacha", 20, "físico", 75)],
@@ -311,6 +307,7 @@ def menu_principal(armero: Armero, mercader: Mercader, tipo_personaje: str, pers
                     comprar_item_mercader(mercader, personaje)
                 case 4:
                     mostrar_estadisticas(personaje)
+                    
                 case 5:
                     print("Gracias por jugar. ¡Hasta la próxima!")
                     break

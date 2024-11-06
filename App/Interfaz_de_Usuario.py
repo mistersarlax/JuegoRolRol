@@ -60,7 +60,7 @@ def elegir_arma_inicial(tipo_personaje: str, armas = {
                     if 0 <= eleccion < len(armas[tipo_personaje]):
                         return armas[tipo_personaje][eleccion]
                     else:
-                        print("Opción no válida, intenta de nuevo")
+                        raise OpcionInvalidaError()
                 except OpcionInvalidaError:
                     print(f"\nOpción no válida, debes ingresar un numero entre 1 y {len(armas[tipo_personaje])}\n")
         else:

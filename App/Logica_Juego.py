@@ -55,7 +55,7 @@ class Personaje(ABC):
         self.inventario: List[Item] = inventario if inventario is not None else [
             Item("Curación", "curación", 20, 30),
             Item("Revitalizar Energía", "revitalizar energía", 20, 30),
-            Item("Veneno", "envenenar enemigo", 10, 30)
+            Item("Veneno", "envenenar enemigo", 20, 30)
         ]
 
     def atacar(self, enemigo: 'Enemigo') -> None:

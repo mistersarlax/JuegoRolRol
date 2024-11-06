@@ -1,5 +1,6 @@
 import random
 from typing import Optional
+from Excepciones import OpcionInvalidaError
 from Logica_Juego import Item, Arma, Personaje, Melee, Mago, PersonajePorDefecto, Enemigo, GuerreroOscuro, DragonMagico, EnemigoComun, Armero, Mercader
 
 def mostrar_inventario_mercader(mercader: Mercader) -> None:
@@ -152,7 +153,7 @@ def comprar_item_mercader(mercader: Mercader, personaje: Personaje):
                 print(f"{mercader.inventario[eleccion_item].nombre} no está disponible para la venta.")
                 break
         else:
-            print("Opción no válida.")
+            raise OpcionInvalidaError(f"Opción no válida, debes ingresar un numero entre 1 y {len(mercader.inventario)}")
             
 def elegir_arma_armero(tipo_personaje: str, armas: dict) -> Optional[Arma]:
 
@@ -201,16 +202,18 @@ def mostrar_opciones_armero(armero: Armero, personaje: Personaje, tipo_personaje
                     print("No tienes ninguna arma para mejorar.")
                     break
             case _:
-                print("Opción no válida.")
+                raise OpcionInvalidaError("Opción no válida, debes ingresar un numero entre 1 y 3.")
         
 def menu_principal(armero: Armero, mercader: Mercader, tipo_personaje: str, personaje: Personaje):
     while True:
-            print("\nMenú Principal:")
-            print("1. Ir a combate")
-            print("2. Ir al armero")
-            print("3. Ir al mercader")
-            print("4. Mostrar estadísticas del Personaje")
-            print("5. Salir del juego")
+        print("\nMenú Principal:")
+        print("1. Ir a combate")
+        print("2. Ir al armero")
+        print("3. Ir al mercader")
+        print("4. Mostrar estadísticas del Personaje")
+        print("5. Salir del juego")
+        
+        try:
             eleccion = input("Selecciona una opción: ")
             match eleccion:
                 case "1":
@@ -227,4 +230,7 @@ def menu_principal(armero: Armero, mercader: Mercader, tipo_personaje: str, pers
                     print("Gracias por jugar. ¡Hasta la próxima!")
                     break
                 case _:
-                    print("Opción no válida.")
+                    raise OpcionInvalidaError()
+        
+        except OpcionInvalidaError:
+            print("Opción no válida, debes ingresar un número entre 1 y 5.")

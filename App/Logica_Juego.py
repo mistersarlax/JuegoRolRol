@@ -265,6 +265,8 @@ class Mercader:
         if personaje.monedas >= item.precio:
             personaje.monedas -= item.precio
             personaje.inventario.append(item)
+            indice = self.inventario.index(item)
+            self.inventario[indice].cantidad -= 1
             return True
         else:
             return False

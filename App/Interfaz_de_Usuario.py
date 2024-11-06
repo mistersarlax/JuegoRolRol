@@ -264,11 +264,11 @@ def mostrar_opciones_armero(armero: Armero, personaje: Personaje, tipo_personaje
                         break
                 case 3:
                     if personaje.arma:
-                        if armero.mejorar_arma(personaje.arma, personaje) == True:
+                        try:
                             armero.mejorar_arma(personaje.arma, personaje)
                             print(f"{personaje.arma.nombre} mejorada en 10 puntos de daño por 75 monedas.")
                             break
-                        else:
+                        except PersonajeNoTieneMonedasError:
                             print(f"{personaje.nombre} no tiene suficientes monedas para mejorar {personaje.arma.nombre}.")
                             break
                     else:

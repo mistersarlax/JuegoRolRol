@@ -1,6 +1,6 @@
 import random
 from typing import Optional
-from Excepciones import OpcionInvalidaError, PersonajeNoTieneItemError
+from Excepciones import OpcionInvalidaError, PersonajeInventarioVacioError, PersonajeNoTieneItemError
 from Logica_Juego import Item, Arma, Personaje, Melee, Mago, PersonajePorDefecto, Enemigo, GuerreroOscuro, DragonMagico, EnemigoComun, Armero, Mercader
 
 def mostrar_inventario_mercader(mercader: Mercader) -> None:
@@ -8,11 +8,13 @@ def mostrar_inventario_mercader(mercader: Mercader) -> None:
     for i, item in enumerate(mercader.inventario):
         print(f"{i + 1}. {item.nombre} (Efecto: {item.efecto}, Cantidad: {item.cantidad}, Precio: {item.precio} monedas)")
         
-def mostrar_inventario_personaje(personaje: Personaje):
-    try:
-    print("\nÍtems disponibles:")
-    for i, item in enumerate(personaje.inventario):
-        print(f"{i + 1}. {item.nombre} (Efecto: {item.efecto}, Cantidad: {item.cantidad}, Precio: {item.precio} monedas)")
+def mostrar_inventario_personaje(personaje: Personaje) -> None:
+    if personaje.inventario:
+        print("\nÍtems disponibles:")
+        for i, item in enumerate(personaje.inventario):
+            print(f"{i + 1}. {item.nombre} (Efecto: {item.efecto}, Cantidad: {item.cantidad}, Precio: {item.precio} monedas)")
+    else:
+        raise PersonajeInventarioVacioError()
 
 def arma_en_armero_arsenal(personaje: Personaje,arma: Arma,armero: Armero, tipo_personaje: str):
     if arma in armero.arsenal[tipo_personaje]:
@@ -35,7 +37,7 @@ def actuar(enemigo: Enemigo, personaje: 'Personaje') -> None:
             enemigo.usar_habilidad(personaje)
             print(f"\n{enemigo.nombre} usa una habilidad especial.")
 
-def mostrar_estado(personaje: Personaje, enemigo: Enemigo) -> None:
+def mostrar_estado_combate(personaje: Personaje, enemigo: Enemigo) -> None:
     print(f"\n--- Estado ---")
     print(f"{personaje.nombre} - Salud: {personaje.salud}, Energía: {personaje.energia}, Arma: {personaje.arma.nombre if personaje.arma else 'Sin arma'}, Monedas: {personaje.monedas}")
     print(f"{enemigo.nombre} - Salud: {enemigo.salud}")
@@ -83,7 +85,7 @@ def combate(personaje: Personaje, enemigo: Enemigo) -> None:
         while True:
             try:
                 print(f"\n--- Turno de {personaje.nombre} ---")
-                mostrar_estado(personaje, enemigo)
+                mostrar_estado_combate(personaje, enemigo)
                 print("Elige una acción: \n1. Atacar \n2. Usar ítem \n3. Defender")
                 while True:
                     try:

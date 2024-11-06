@@ -6,7 +6,7 @@ from Logica_Juego import Item, Arma, Personaje, Melee, Mago, PersonajePorDefecto
 def mostrar_inventario_mercader(mercader: Mercader) -> None:
     print("\nÍtems disponibles en el mercader:")
     for i, item in enumerate(mercader.inventario):
-        print(f"{i + 1}. {item.nombre} (Efecto: {item.efecto}, Precio: {item.precio} monedas)")
+        print(f"{i + 1}. {item.nombre} (Efecto: {item.efecto}, Cantidad: {item.cantidad}, Precio: {item.precio} monedas)")
 
 def arma_en_armero_arsenal(personaje: Personaje,arma: Arma,armero: Armero, tipo_personaje: str):
     if arma in armero.arsenal[tipo_personaje]:

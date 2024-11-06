@@ -256,16 +256,22 @@ class Armero:
 class Mercader:
     def __init__(self) -> None:
         self.inventario: List[Item] = [
-            Item("Curación", "curación", 20, 30),
-            Item("Revitalizar Energía", "revitalizar energía", 20, 30),
-            Item("Veneno", "envenenar enemigo", 10, 30)
+            Item("Curación", "curación", 100, 30),
+            Item("Revitalizar Energía", "revitalizar energía", 100, 30),
+            Item("Veneno", "envenenar enemigo", 100, 30)
         ]
 
     def vender_item(self, item: Item, personaje: Personaje) -> bool:
         if personaje.monedas >= item.precio:
             personaje.monedas -= item.precio
-            indice = self.inventario.index(item)
-            self.inventario[indice].cantidad -= 1
-            return True
+            indice_mercader = self.inventario.index(item)
+            self.inventario[indice_mercader].cantidad -= 1
+            try:
+                # Buscar el índice usando el nombre del item
+                indice_personaje = next(i for i, x in enumerate(personaje.inventario) if x.nombre == item.nombre)
+                personaje.inventario[indice_personaje].cantidad += 1
+            except StopIteration:
+                # Si no se encuentra el item, añadirlo al inventario del personaje
+                personaje.inventario.append(item)
         else:
             raise PersonajeNoTieneMonedasError()

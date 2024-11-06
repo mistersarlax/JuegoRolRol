@@ -6,3 +6,6 @@ class PersonajeNoTieneItemError(Exception):
 
 class PersonajeNoTieneMonedasError(Exception):
     pass
+
+class PersonajeInventarioVacioError(Exception):
+    pass

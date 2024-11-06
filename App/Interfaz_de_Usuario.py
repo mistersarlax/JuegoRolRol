@@ -9,6 +9,7 @@ def mostrar_inventario_mercader(mercader: Mercader) -> None:
         print(f"{i + 1}. {item.nombre} (Efecto: {item.efecto}, Cantidad: {item.cantidad}, Precio: {item.precio} monedas)")
         
 def mostrar_inventario_personaje(personaje: Personaje):
+    try:
     print("\nÍtems disponibles:")
     for i, item in enumerate(personaje.inventario):
         print(f"{i + 1}. {item.nombre} (Efecto: {item.efecto}, Cantidad: {item.cantidad}, Precio: {item.precio} monedas)")

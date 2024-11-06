@@ -126,7 +126,7 @@ def elegir_tipo_personaje():
                     raise OpcionInvalidaError()
                 
         except OpcionInvalidaError:
-            print("Opción no válida, debes ingresar un numero entre 1 y 3")
+            print("\nOpción no válida, debes ingresar un numero entre 1 y 3\n")
             
                 
 def crear_personaje(tipo_personaje: str, arma: Arma | None):
@@ -145,21 +145,24 @@ def mostrar_armas_armero(armero: Armero, tipo_personaje: str):
         
 def comprar_item_mercader(mercader: Mercader, personaje: Personaje):
     while True:
-        eleccion_item = int(input("\nSelecciona un ítem para comprar: ")) - 1
-        if 0 <= eleccion_item < len(mercader.inventario):
-            if mercader.inventario[eleccion_item] in mercader.inventario:
-                if mercader.vender_item(mercader.inventario[eleccion_item], personaje) == True:
-                    mercader.vender_item(mercader.inventario[eleccion_item], personaje)
-                    print(f"{personaje.nombre} compró {mercader.inventario[eleccion_item].nombre} por {mercader.inventario[eleccion_item].precio} monedas.")
-                    break
+        try:
+            eleccion_item = int(input("\nSelecciona un ítem para comprar: ")) - 1
+            if 0 <= eleccion_item < len(mercader.inventario):
+                if mercader.inventario[eleccion_item] in mercader.inventario:
+                    if mercader.vender_item(mercader.inventario[eleccion_item], personaje) == True:
+                        mercader.vender_item(mercader.inventario[eleccion_item], personaje)
+                        print(f"{personaje.nombre} compró {mercader.inventario[eleccion_item].nombre} por {mercader.inventario[eleccion_item].precio} monedas.")
+                        break
+                    else:
+                        print(f"{personaje.nombre} no tiene suficientes monedas para comprar {mercader.inventario[eleccion_item].nombre}.")
+                        break
                 else:
-                    print(f"{personaje.nombre} no tiene suficientes monedas para comprar {mercader.inventario[eleccion_item].nombre}.")
+                    print(f"{mercader.inventario[eleccion_item].nombre} no está disponible para la venta.")
                     break
             else:
-                print(f"{mercader.inventario[eleccion_item].nombre} no está disponible para la venta.")
-                break
-        else:
-            raise OpcionInvalidaError(f"Opción no válida, debes ingresar un numero entre 1 y {len(mercader.inventario)}")
+                raise OpcionInvalidaError()
+        except OpcionInvalidaError:
+            print(f"Opción no válida, debes ingresar un numero entre 1 y {len(mercader.inventario)}")
             
 def elegir_arma_armero(tipo_personaje: str, armas: dict) -> Optional[Arma]:
 

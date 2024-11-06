@@ -1,6 +1,6 @@
 import random
 from typing import Optional
-from Excepciones import OpcionInvalidaError, PersonajeInventarioVacioError, PersonajeNoTieneItemError
+from Excepciones import OpcionInvalidaError, PersonajeInventarioVacioError, PersonajeNoTieneItemError, PersonajeNoTieneMonedasError
 from Logica_Juego import Item, Arma, Personaje, Melee, Mago, PersonajePorDefecto, Enemigo, GuerreroOscuro, DragonMagico, EnemigoComun, Armero, Mercader
 
 def mostrar_inventario_mercader(mercader: Mercader) -> None:
@@ -18,10 +18,10 @@ def mostrar_inventario_personaje(personaje: Personaje) -> None:
 
 def arma_en_armero_arsenal(personaje: Personaje,arma: Arma,armero: Armero, tipo_personaje: str):
     if arma in armero.arsenal[tipo_personaje]:
-        if armero.vender_arma(arma, personaje, tipo_personaje) == True:
+        try:
             armero.vender_arma(arma, personaje, tipo_personaje)
             print(f"{personaje.nombre} compró {arma.nombre} por {arma.precio} monedas.")
-        else:
+        except PersonajeNoTieneMonedasError:
             print(f"{personaje.nombre} no tiene suficientes monedas para comprar {arma.nombre}.")
     else:
         print(f"{arma.nombre} no está disponible para la venta.")

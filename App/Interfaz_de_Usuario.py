@@ -10,7 +10,7 @@ def mostrar_inventario_mercader(mercader: Mercader) -> None:
         
 def mostrar_inventario_personaje(personaje: Personaje) -> None:
     if personaje.inventario:
-        print("\nÍtems disponibles:")
+        print("\n----Ítems disponibles-----")
         for i, item in enumerate(personaje.inventario):
             print(f"{i + 1}. {item.nombre} (Efecto: {item.efecto}, Cantidad: {item.cantidad}, Precio: {item.precio} monedas)")
     else:
@@ -287,7 +287,8 @@ def menu_principal(armero: Armero, mercader: Mercader, tipo_personaje: str, pers
         print("2. Ir al armero")
         print("3. Ir al mercader")
         print("4. Mostrar estadísticas del Personaje")
-        print("5. Salir del juego")
+        print("5. Mostrar inventario del Personaje")
+        print("6. Salir del juego")
         
         try:
             while True:
@@ -295,7 +296,7 @@ def menu_principal(armero: Armero, mercader: Mercader, tipo_personaje: str, pers
                     eleccion = int(input("Selecciona una opción: "))
                     break
                 except ValueError:
-                    print("\nOpción no válida, debes ingresar un número entre 1 y 5.")
+                    print("\nOpción no válida, debes ingresar un número entre 1 y 6.")
             match eleccion:
                 case 1:
                     enemigo = random.choice([EnemigoComun(), DragonMagico(), GuerreroOscuro()])
@@ -307,13 +308,14 @@ def menu_principal(armero: Armero, mercader: Mercader, tipo_personaje: str, pers
                     comprar_item_mercader(mercader, personaje)
                 case 4:
                     mostrar_estadisticas(personaje)
-                    
                 case 5:
+                    mostrar_inventario_personaje(personaje)
+                case 6:
                     print("Gracias por jugar. ¡Hasta la próxima!")
                     break
                 case _:
                     raise OpcionInvalidaError()
         
         except OpcionInvalidaError:
-            print("\nOpción no válida, debes ingresar un número entre 1 y 5.")
+            print("\nOpción no válida, debes ingresar un número entre 1 y 6.")
             

@@ -240,6 +240,8 @@ def mostrar_opciones_armero(armero: Armero, personaje: Personaje, tipo_personaje
     print("1. Comprar arma")
     print("2. Vender arma")
     print("3. Mejorar arma (Precio: 75 monedas)")
+    print("4. Volver al menú principal")
+    
     while True:
         try:
             while True:
@@ -274,6 +276,9 @@ def mostrar_opciones_armero(armero: Armero, personaje: Personaje, tipo_personaje
                     else:
                         print("No tienes ninguna arma para mejorar.")
                         break
+                case 4:
+                    print("\nRegresando al menú principal...")
+                    return
                 case _:
                     raise OpcionInvalidaError()
                 

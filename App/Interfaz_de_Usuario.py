@@ -284,16 +284,45 @@ def mostrar_opciones_armero(armero: Armero, personaje: Personaje, tipo_personaje
                 
         except OpcionInvalidaError:
             print("\nOpción no válida, debes ingresar un numero entre 1 y 3.\n")
+            
+def mostrar_opciones_mercader(mercader: Mercader, personaje: Personaje):
+    print("\nOpciones del Mercader:")
+    print("1. Comprar items")
+    print("2. Volver al menú principal")
+
+    while True:
+        try:
+            while True:
+                try:
+                    eleccion= int(input("Selecciona una opción: "))
+                    break
+                except ValueError:
+                    print("\nOpción no válida, debes ingresar un numero entre 1 y 2.\n")
+            match eleccion:
+                case 1:
+                    mostrar_inventario_mercader(mercader)
+                    comprar_item_mercader(mercader, personaje)
+                    break
+                case 2:
+                    print("\nRegresando al menú principal...")
+                    return
+                case _:
+                    raise OpcionInvalidaError()
+                
+        except OpcionInvalidaError:
+            print("\nOpción no válida, debes ingresar un numero entre 1 y 3.\n")
+        
+            
         
 def menu_principal(armero: Armero, mercader: Mercader, tipo_personaje: str, personaje: Personaje):
     while True:
         print("\nMenú Principal:")
-        print("1. Ir a combate")
-        print("2. Ir al armero")
-        print("3. Ir al mercader")
-        print("4. Mostrar estadísticas del Personaje")
-        print("5. Mostrar inventario del Personaje")
-        print("6. Salir del juego")
+        print("1. Ir a Combate")
+        print("2. Ir al Armero")
+        print("3. Ir al Mercader")
+        print("4. Mostrar Estadísticas del Personaje")
+        print("5. Mostrar Inventario del Personaje")
+        print("6. Salir del Juego")
         
         try:
             while True:
@@ -309,8 +338,7 @@ def menu_principal(armero: Armero, mercader: Mercader, tipo_personaje: str, pers
                 case 2:
                     mostrar_opciones_armero(armero, personaje, tipo_personaje)
                 case 3:
-                    mostrar_inventario_mercader(mercader)
-                    comprar_item_mercader(mercader, personaje)
+                    mostrar_opciones_mercader(mercader,personaje)
                 case 4:
                     mostrar_estadisticas(personaje)
                 case 5:

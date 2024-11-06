@@ -41,7 +41,7 @@ def mostrar_estadisticas(personaje: Personaje) -> str:
     print("--- inventario ---")
     for i, item in enumerate(personaje.inventario):
         print(f"{i + 1}. {item.nombre} (Efecto: {item.efecto}, Precio: {item.precio} monedas)")
-    print("----------------\n")
+    print("----------------")
 
 def elegir_arma_inicial(tipo_personaje: str, armas = {
         "Melee": [Arma("Espada", 15, "físico", 50), Arma("Hacha", 20, "físico", 75)],
@@ -65,33 +65,47 @@ def elegir_arma_inicial(tipo_personaje: str, armas = {
 
 def combate(personaje: Personaje, enemigo: Enemigo) -> None:
     while personaje.salud > 0 and enemigo.salud > 0:
-        print(f"\n--- Turno de {personaje.nombre} ---")
-        mostrar_estado(personaje, enemigo)
-        print("Elige una acción: \n1. Atacar \n2. Usar ítem \n3. Defender")
-        accion = input("Eleccion:")
-        match accion:
-            case "1":
-                if isinstance(personaje, Melee) or isinstance(personaje, PersonajePorDefecto):
-                    print(f"\n{personaje.nombre} ataca a {enemigo.nombre} con {personaje.arma.nombre} y le inflige {personaje.atacar(enemigo)} puntos de daño.")
-                elif isinstance(personaje, Mago) and personaje.energia > 10:
-                    print(f"\n{personaje.nombre} lanza un hechizo a {enemigo.nombre} con {personaje.arma.nombre} y le inflige {personaje.atacar(enemigo)} puntos de daño.")
-                else:
-                    print(f"\n{personaje.nombre} no tiene suficiente energía para lanzar un hechizo.")
-            case "2":
-                print("\nÍtems disponibles:")
-                for i, item in enumerate(personaje.inventario):
-                    print(f"{i + 1}. {item.nombre}")
-                eleccion = int(input("Selecciona un ítem: ")) - 1
-                if 0 <= eleccion < len(personaje.inventario):
-                    personaje.usar_item(personaje.inventario[eleccion], enemigo)
-                    print(f"\n{personaje.nombre} usó la poción de {item.efecto}")
-                else:
-                    print("Opción no válida.")
-            case "3":
-                personaje.defender()
-                print(f"\n{personaje.nombre} se defiende y reduce el daño del próximo ataque.")
-            case _:
-                print("Opción no válida.")
+        while True:
+            try:
+                print(f"\n--- Turno de {personaje.nombre} ---")
+                mostrar_estado(personaje, enemigo)
+                print("Elige una acción: \n1. Atacar \n2. Usar ítem \n3. Defender")
+                accion = input("Eleccion:")
+                match accion:
+                    case "1":
+                        if isinstance(personaje, Melee) or isinstance(personaje, PersonajePorDefecto):
+                            print(f"\n{personaje.nombre} ataca a {enemigo.nombre} con {personaje.arma.nombre} y le inflige {personaje.atacar(enemigo)} puntos de daño.")
+                            break
+                        elif isinstance(personaje, Mago) and personaje.energia > 10:
+                            print(f"\n{personaje.nombre} lanza un hechizo a {enemigo.nombre} con {personaje.arma.nombre} y le inflige {personaje.atacar(enemigo)} puntos de daño.")
+                            break
+                        else:
+                            print(f"\n{personaje.nombre} no tiene suficiente energía para lanzar un hechizo.")
+                            break
+                    case "2":
+                        while True:
+                            print("\nÍtems disponibles:")
+                            for i, item in enumerate(personaje.inventario):
+                                print(f"{i + 1}. {item.nombre}")
+                            try:
+                                eleccion = int(input("Selecciona un ítem: ")) - 1
+                                if 0 <= eleccion < len(personaje.inventario):
+                                    print(f"\n{personaje.nombre} usó la poción de {personaje.inventario[eleccion].efecto}")
+                                    personaje.usar_item(personaje.inventario[eleccion], enemigo)
+                                    break
+                                else:
+                                    raise OpcionInvalidaError()
+                            except OpcionInvalidaError:
+                                print(f"\nOpción no válida, debes ingresar un numero entre 1 y {len(personaje.inventario)}\n")
+                        break
+                    case "3":
+                        personaje.defender()
+                        print(f"\n{personaje.nombre} se defiende y reduce el daño del próximo ataque.")
+                        break
+                    case _:
+                        raise OpcionInvalidaError()
+            except OpcionInvalidaError:
+                print("\nOpción no válida, debes ingresar un numero entre 1 y 3\n")
         
         if enemigo.salud > 0:
             actuar(enemigo, personaje)
@@ -162,7 +176,7 @@ def comprar_item_mercader(mercader: Mercader, personaje: Personaje):
             else:
                 raise OpcionInvalidaError()
         except OpcionInvalidaError:
-            print(f"Opción no válida, debes ingresar un numero entre 1 y {len(mercader.inventario)}")
+            print(f"\nOpción no válida, debes ingresar un numero entre 1 y {len(mercader.inventario)}")
             
 def elegir_arma_armero(tipo_personaje: str, armas: dict) -> Optional[Arma]:
 

@@ -51,14 +51,18 @@ def elegir_arma_inicial(tipo_personaje: str, armas = {
 
     while True:
         if tipo_personaje in armas:
-            print("\nArmas disponibles:")
-            for i, arma in enumerate(armas[tipo_personaje]):
-                print(f"{i + 1}. {arma.nombre} (Daño: {arma.daño}, Precio: {arma.precio})")
-            eleccion = int(input("Selecciona un arma: ")) - 1
-            if 0 <= eleccion < len(armas[tipo_personaje]):
-                return armas[tipo_personaje][eleccion]
-            else:
-                print("Opción no válida, intenta de nuevo")
+            while True:
+                try:
+                    print("\nArmas disponibles:")
+                    for i, arma in enumerate(armas[tipo_personaje]):
+                        print(f"{i + 1}. {arma.nombre} (Daño: {arma.daño}, Precio: {arma.precio})")
+                    eleccion = int(input("Selecciona un arma: ")) - 1
+                    if 0 <= eleccion < len(armas[tipo_personaje]):
+                        return armas[tipo_personaje][eleccion]
+                    else:
+                        print("Opción no válida, intenta de nuevo")
+                except OpcionInvalidaError:
+                    print(f"\nOpción no válida, debes ingresar un numero entre 1 y {len(armas[tipo_personaje])}\n")
         else:
             print("Tipo de personaje no válido.")
             return None

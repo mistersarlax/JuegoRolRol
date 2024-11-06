@@ -2,6 +2,8 @@ from abc import ABC
 import random
 from typing import List, Optional
 
+from Excepciones import PersonajeNoTieneItemError
+
 class Item:
     def __init__(self, nombre: str, efecto: str, cantidad: int, precio: int):
         self.nombre: str = nombre
@@ -67,7 +69,7 @@ class Personaje(ABC):
             item.usar(self, enemigo)
             self.inventario.remove(item)
         else:
-            print(f"{self.nombre} no tiene {item.nombre}.")
+            raise PersonajeNoTieneItemError()
 
 
 class Melee(Personaje):
@@ -183,7 +185,7 @@ class Enemigo(ABC):
         return defensa
 
     def usar_habilidad(self, personaje: 'Personaje') -> None:
-        return None
+        NotImplementedError
 
 class GuerreroOscuro(Enemigo):
     def __init__(self) -> None:

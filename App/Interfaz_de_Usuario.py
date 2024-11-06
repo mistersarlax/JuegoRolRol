@@ -1,6 +1,6 @@
 import random
 from typing import Optional
-from Excepciones import OpcionInvalidaError
+from Excepciones import OpcionInvalidaError, PersonajeNoTieneItemError
 from Logica_Juego import Item, Arma, Personaje, Melee, Mago, PersonajePorDefecto, Enemigo, GuerreroOscuro, DragonMagico, EnemigoComun, Armero, Mercader
 
 def mostrar_inventario_mercader(mercader: Mercader) -> None:
@@ -109,9 +109,12 @@ def combate(personaje: Personaje, enemigo: Enemigo) -> None:
                                     except ValueError:
                                         print(f"\nOpción no válida, debes ingresar un numero entre 1 y {len(personaje.inventario)}\n")
                                 if 0 <= eleccion < len(personaje.inventario):
-                                    print(f"\n{personaje.nombre} usó la poción de {personaje.inventario[eleccion].efecto}")
-                                    personaje.usar_item(personaje.inventario[eleccion], enemigo)
-                                    break
+                                    try:
+                                        print(f"\n{personaje.nombre} usó la poción de {personaje.inventario[eleccion].efecto}")
+                                        personaje.usar_item(personaje.inventario[eleccion], enemigo)
+                                        break
+                                    except PersonajeNoTieneItemError:
+                                        print(f"{personaje.nombre} no tiene {item.nombre}.")
                                 else:
                                     raise OpcionInvalidaError()
                             except OpcionInvalidaError:

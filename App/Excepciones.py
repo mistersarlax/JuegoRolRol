@@ -1,5 +1,5 @@
 class OpcionInvalidaError(Exception):
     pass
 
-class PersoajeNoTieneItemError(Exception):
+class PersonajeNoTieneItemError(Exception):
     pass

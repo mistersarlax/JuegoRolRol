@@ -26,7 +26,7 @@ def arma_en_armero_arsenal(personaje: Personaje,arma: Arma,armero: Armero, tipo_
     else:
         print(f"{arma.nombre} no está disponible para la venta.")
 
-def actuar(enemigo: Enemigo, personaje: 'Personaje') -> None:
+def actuar_enemigo(enemigo: Enemigo, personaje: 'Personaje') -> None:
     accion: str = random.choice(["atacar", "defender", "usar habilidad"])
     match accion:
         case "atacar":
@@ -134,7 +134,7 @@ def combate(personaje: Personaje, enemigo: Enemigo) -> None:
                 print("\nOpción no válida, debes ingresar un numero entre 1 y 3\n")
         
         if enemigo.salud > 0:
-            actuar(enemigo, personaje)
+            actuar_enemigo(enemigo, personaje)
             
         if enemigo.salud <= 0:
             print(f"\n{enemigo.nombre} ha sido derrotado!")

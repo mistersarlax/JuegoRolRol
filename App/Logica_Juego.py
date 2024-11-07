@@ -197,6 +197,16 @@ class Enemigo(ABC):
 
     def usar_habilidad(self, personaje: 'Personaje') -> None:
         NotImplementedError
+        
+    def actuar_turno(self, personaje: 'Personaje') -> None:
+        accion: str = random.choice(["atacar", "defender", "usar habilidad"])
+        match accion:
+            case "atacar":
+                self.atacar(personaje)
+            case "defender":
+                self.defender()
+            case "usar habilidad":
+                self.usar_habilidad(personaje)
 
 class GuerreroOscuro(Enemigo):
     def __init__(self) -> None:

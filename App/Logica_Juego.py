@@ -74,6 +74,12 @@ class Personaje(ABC):
     
     def habilidad_usar(self) -> None:
         raise NotImplementedError
+    
+    def __str__(self) -> str:
+        arma_info = f"{self.arma.nombre} ({self.arma.daño} de daño)" if self.arma else "Sin arma"
+        return (f"\n--- Stats ---\n"
+                f"{self.nombre} - Salud: {self.salud}, Energía: {self.energia}, "
+                f"Arma: {arma_info}, Monedas: {self.monedas}")
 
 
 class Melee(Personaje):

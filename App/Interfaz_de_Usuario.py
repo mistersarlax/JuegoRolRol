@@ -254,12 +254,12 @@ def mostrar_opciones_armero(armero: Armero, personaje: Personaje, tipo_personaje
                     arma_en_armero_arsenal(personaje, arma, armero, tipo_personaje)
                     break
                 case 2:
-                    if personaje.arma:
+                    if personaje.arma.nombre != "Puños":
                         print(f"{personaje.nombre} vendió {personaje.arma.nombre} y recibió {personaje.arma.precio} monedas.")
                         armero.comprar_arma(personaje.arma, personaje, tipo_personaje)
                         break
                     else:
-                        print("No tienes ninguna arma para vender.")
+                        print("\nNo tienes ninguna arma para vender.")
                         break
                 case 3:
                     if personaje.arma:

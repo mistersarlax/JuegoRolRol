@@ -285,7 +285,7 @@ def mostrar_opciones_armero(armero: Armero, personaje: Personaje, tipo_personaje
         except OpcionInvalidaError:
             print("\nOpción no válida, debes ingresar un numero entre 1 y 3.\n")
             
-def mostrar_opciones_mercader(mercader: Mercader, personaje: Personaje):
+def mostrar_opciones_mercader(mercader: Mercader, personaje: Personaje) -> None:
     print("\nOpciones del Mercader:")
     print("1. Comprar items")
     print("2. Volver al menú principal")

@@ -143,7 +143,7 @@ def combate(personaje: Personaje, enemigo: Enemigo) -> None:
         if personaje.salud <= 0:
             print(f"\n{personaje.nombre} ha sido derrotado...")
             
-def elegir_tipo_personaje():
+def elegir_tipo_personaje() -> str:
     print("\nSelecciona tu personaje:")
     print("1. Guerrero (Melee)")
     print("2. Mago")

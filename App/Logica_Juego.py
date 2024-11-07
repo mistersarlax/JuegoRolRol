@@ -71,6 +71,9 @@ class Personaje(ABC):
             self.inventario[indice].cantidad -= 1
         else:
             raise PersonajeNoTieneItemError()
+    
+    def habilidad_usar(self) -> None:
+        raise NotImplementedError
 
 
 class Melee(Personaje):

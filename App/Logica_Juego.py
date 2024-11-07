@@ -66,7 +66,7 @@ class Personaje(ABC):
 
     def usar_item(self, item: Item, enemigo: Optional['Enemigo'] = None) -> None:
         if item in self.inventario:
-            item.usar(self, enemigo)
+            item.aplicar_efecto_item(self, enemigo)
             indice = self.inventario.index(item)
             self.inventario[indice].cantidad -= 1
         else:

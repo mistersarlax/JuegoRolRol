@@ -188,7 +188,7 @@ def mostrar_armas_armero(armero: Armero, tipo_personaje: str) -> None:
     for i, arma in enumerate(armero.arsenal[tipo_personaje]):
         print(f"{i + 1}. {arma.nombre} (Daño: {arma.daño}, Precio: {arma.precio})")
         
-def comprar_item_mercader(mercader: Mercader, personaje: Personaje):
+def comprar_item_mercader(mercader: Mercader, personaje: Personaje) -> None:
     while True:
         try:
             while True:

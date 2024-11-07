@@ -26,7 +26,7 @@ def arma_en_armero_arsenal(personaje: Personaje,arma: Arma,armero: Armero, tipo_
     else:
         print(f"{arma.nombre} no está disponible para la venta.")
 
-def actuar_enemigo(enemigo: Enemigo, personaje: 'Personaje') -> None:
+def actuar_enemigo(enemigo: Enemigo, personaje: Personaje) -> None:
     accion: str = random.choice(["atacar", "defender", "usar habilidad"])
     match accion:
         case "atacar":

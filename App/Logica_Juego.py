@@ -97,7 +97,7 @@ class Melee(Personaje):
                          arma=arma, 
                          habilidades=habilidades)
 
-    def atacar(self, enemigo: 'Enemigo') -> None:
+    def atacar(self, enemigo: 'Enemigo') -> int:
         evento: str = random.choice(["normal", "critico", "fallo"])
         if evento == "normal":
             daño_normal: int = max(self.daño_fisico + self.arma.daño - enemigo.defensa_fisica, 0)
@@ -127,7 +127,7 @@ class Mago(Personaje):
                          arma=arma, 
                          habilidades=habilidades)
 
-    def atacar(self, enemigo: 'Enemigo') -> None:
+    def atacar(self, enemigo: 'Enemigo') -> int:
         evento: str = random.choice(["normal", "critico", "fallo"])
         if evento == "normal":
             daño_normal: int = max(self.daño_magico + self.arma.daño - enemigo.defensa_magica, 0)
@@ -155,7 +155,7 @@ class PersonajePorDefecto(Personaje):
                          daño_magico=0, 
                          arma=arma)
 
-    def atacar(self, enemigo: 'Enemigo') -> None:
+    def atacar(self, enemigo: 'Enemigo') -> int:
         evento: str = random.choice(["normal", "critico", "fallo"])
         evento: str = random.choice(["normal", "critico", "fallo"])
         if evento == "normal":
@@ -184,7 +184,7 @@ class Enemigo(ABC):
         self.daño_fisico = daño_fisico
         self.daño_magico = daño_magico
 
-    def atacar(self, personaje: 'Personaje') -> None:
+    def atacar(self, personaje: 'Personaje') -> int:
         daño_real: int = max(self.daño_fisico - personaje.defensa_fisica, 0)
         personaje.salud -= daño_real
         return daño_real

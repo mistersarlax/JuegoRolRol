@@ -164,7 +164,7 @@ def elegir_tipo_personaje() -> str:
                 case 2:
                     tipo_personaje = "Mago"
                     return tipo_personaje
-                case 2:
+                case 3:
                     tipo_personaje = "Defecto"
                     return tipo_personaje
                 case _:

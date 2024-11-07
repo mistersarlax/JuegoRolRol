@@ -242,7 +242,7 @@ class Armero:
     def comprar_arma(self, arma: Arma, personaje: Personaje, tipo_personaje: str) -> bool:
         if personaje.arma == arma:
             personaje.monedas += arma.precio
-            self.arsenal[tipo_personaje].append(arma)
+            self.agregar_arma(arma, tipo_personaje)
             personaje.arma = Arma("Puños", 5, "físico", 0)
             return True
 

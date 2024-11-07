@@ -235,7 +235,7 @@ def elegir_arma_armero(tipo_personaje: str, armas: dict) -> Optional[Arma]:
         print("Tipo de personaje no válido.")
         return None
             
-def mostrar_opciones_armero(armero: Armero, personaje: Personaje, tipo_personaje: str):
+def mostrar_opciones_armero(armero: Armero, personaje: Personaje, tipo_personaje: str) -> None:
     print("\nOpciones del armero:")
     print("1. Comprar arma")
     print("2. Vender arma")

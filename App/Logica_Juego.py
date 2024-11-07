@@ -14,13 +14,13 @@ class Item:
     def aplicar_efecto_item(self, personaje: 'Personaje', enemigo: 'Enemigo' = None) -> str:
         
         if self.efecto == "curación":
-            personaje.salud += self.cantidad
+            personaje.salud += 30
             
         elif self.efecto == "revitalizar energía":
-            personaje.energia += self.cantidad
+            personaje.energia += 30
             
         elif self.efecto == "envenenar enemigo" and enemigo is not None:
-            enemigo.salud -= self.cantidad
+            enemigo.salud -= 30
 
 class Arma:
     def __init__(self, nombre: str, daño: int, tipo: str, precio: int) -> None:

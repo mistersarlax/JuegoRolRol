@@ -183,7 +183,7 @@ def crear_personaje(tipo_personaje: str, arma: Arma | None) -> Personaje:
             personaje = PersonajePorDefecto("Defensor", arma)
         return personaje
     
-def mostrar_armas_armero(armero: Armero, tipo_personaje: str):
+def mostrar_armas_armero(armero: Armero, tipo_personaje: str) -> None:
     print("\nArmas disponibles en el armero:")
     for i, arma in enumerate(armero.arsenal[tipo_personaje]):
         print(f"{i + 1}. {arma.nombre} (Daño: {arma.daño}, Precio: {arma.precio})")

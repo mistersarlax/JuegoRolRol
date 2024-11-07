@@ -174,7 +174,7 @@ def elegir_tipo_personaje() -> str:
             print("\nOpción no válida, debes ingresar un numero entre 1 y 3\n")
             
                 
-def crear_personaje(tipo_personaje: str, arma: Arma | None):
+def crear_personaje(tipo_personaje: str, arma: Arma | None) -> Personaje:
         if tipo_personaje == "Melee":
             personaje = Melee("Guerrero", arma)
         elif tipo_personaje == "Mago":

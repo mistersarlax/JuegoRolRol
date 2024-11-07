@@ -153,7 +153,8 @@ class PersonajePorDefecto(Personaje):
                          defensa_magica=10, 
                          daño_fisico=15, 
                          daño_magico=0, 
-                         arma=arma)
+                         arma=arma,
+                         inventario = [])
 
     def atacar(self, enemigo: 'Enemigo') -> int:
         evento: str = random.choice(["normal", "critico", "fallo"])

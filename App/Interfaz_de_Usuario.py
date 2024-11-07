@@ -118,7 +118,8 @@ def combate(personaje: Personaje, enemigo: Enemigo) -> None:
                             except OpcionInvalidaError:
                                 print(f"\nOpción no válida, debes ingresar un numero entre 1 y {len(personaje.inventario)}\n")
                             except PersonajeInventarioVacioError:
-                                print(f"El inventario de {personaje.nombre} esta vacio")
+                                print(f"\nEl inventario de {personaje.nombre} esta vacio")
+                                break
                         break
                     case 3:
                         personaje.defender()
@@ -338,7 +339,10 @@ def menu_principal(armero: Armero, mercader: Mercader, tipo_personaje: str, pers
                 case 4:
                     print(personaje)
                 case 5:
-                    mostrar_inventario_personaje(personaje)
+                    try:
+                        mostrar_inventario_personaje(personaje)
+                    except PersonajeInventarioVacioError:
+                        print(f"\nEl inventario de {personaje.nombre} esta vacio")
                 case 6:
                     print("Gracias por jugar. ¡Hasta la próxima!")
                     break

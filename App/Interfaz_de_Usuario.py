@@ -314,7 +314,7 @@ def mostrar_opciones_mercader(mercader: Mercader, personaje: Personaje) -> None:
         
             
         
-def menu_principal(armero: Armero, mercader: Mercader, tipo_personaje: str, personaje: Personaje):
+def menu_principal(armero: Armero, mercader: Mercader, tipo_personaje: str, personaje: Personaje) -> None:
     while True:
         print("\nMenú Principal:")
         print("1. Ir a Combate")

@@ -11,7 +11,7 @@ class Item:
         self.cantidad: int = cantidad
         self.precio: int = precio
 
-    def usar(self, personaje: 'Personaje', enemigo: 'Enemigo' = None) -> str:
+    def aplicar_efecto_item(self, personaje: 'Personaje', enemigo: 'Enemigo' = None) -> str:
         
         if self.efecto == "curación":
             personaje.salud += self.cantidad
